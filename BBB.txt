@@ -1,0 +1,25 @@
+https://docs.bigbluebutton.org/dev/api.html
+https://blog.codehunger.in/bigbluebutton-integration-in-laravel/
+https://github.com/joisarjignesh/bigbluebutton
+
+composer require joisarjignesh/bigbluebutton
+
+php artisan vendor:publish --tag=bigbluebutton-config
+
+- Define security salt in your .env file
+BBB_SECURITY_SALT=8cd8ef52e8e101574e400365b55e11a6
+BBB_SERVER_BASE_URL=http://test-install.blindsidenetworks.com/bigbluebutton/
+
+- For Specific server configuration (only for multiple server by default is optional)
+'servers' => [
+    'server1' => [
+        'BBB_SECURITY_SALT'    => '',
+        'BBB_SERVER_BASE_URL'  => '',
+    ],
+]
+
+
+php artisan optimize:clear
+php artisan config:clear
+
+Note -: You can find more about the create meeting parameter under vendor\bigbluebutton\bigbluebutton-api-php\src\Parameters\CreateMeetingParameter.php line number 932
