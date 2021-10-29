@@ -92,17 +92,18 @@ Route::get('BBB', function () {
     //     ]
     // ]);
 
+    /*
     // Get a list of meetings
     // Get all meetings document
     // return \Bigbluebutton::all(); //using facade
-    // return bigbluebutton()->all(); //using helper method
-
+    return bigbluebutton()->all(); //using helper method
+    *//*
     // 4
-    // Bigbluebutton::getMeetingInfo([
-    //     'meetingID' => 'tamku',
-    //     'moderatorPW' => 'moderator' //moderator password set here
-    // ]);
-    /*
+    Bigbluebutton::getMeetingInfo([
+        'meetingID' => 'tamku',
+        'moderatorPW' => 'moderator' //moderator password set here
+    ]);
+    *//*
     Bigbluebutton::isMeetingRunning([
         'meetingID' => 'tamku',
     ]);
@@ -113,6 +114,96 @@ Route::get('BBB', function () {
         'meetingID' => 'tamku',
         'moderatorPW' => 'moderator' //moderator password set here
     ]);
+    */
+
+    /*
+    // Get recordings
+    \Bigbluebutton::getRecordings([
+        'meetingID' => 'tamku',
+        // 'meetingID' => ['tamku','xyz'], // pass as array if get multiple recordings
+        // 'recordID' => 'a3f1s',
+        // 'recordID' => ['xyz.1','pqr.1'] // pass as array note :If a recordID is specified, the meetingID is ignored.
+        // 'state' => 'any' // It can be a set of states separate by commas
+    ]);
+    */
+
+    /*
+    // Publish recordings
+    \Bigbluebutton::publishRecordings([
+        'recordID' => 'a3f1s',
+        // 'recordID' => ['xyz.1','pqr.1'] // pass as array if publish multiple recordings
+        'state' => true //default is true
+    ]);
+    */
+
+    /*
+    // Delete recordings
+    \Bigbluebutton::deleteRecordings([
+        //'recordID' => 'a3f1s',
+        'recordID' => ['a3f1s','a4ff2'] //pass array if multiple delete recordings
+    ]);
+    */
+
+    /*
+    // Update recordings
+    \Bigbluebutton::updateRecordings([
+        //'recordID' => 'a3f1s',
+        'recordID' => ['a3f1s','a4ff2'] // pass array if multiple delete recordings
+    ]);
+    */
+
+    /*
+    // Get default config xml document
+    \Bigbluebutton::getDefaultConfigXml(); //return as xml
+    //dd(XmlToArray($this->bbb->getDefaultConfigXML()->getRawXml())); //return as array
+    */
+
+    /*
+    Set config xml document
+    \Bigbluebutton::setConfigXml([
+        // 'xml'       => new \SimpleXMLElement('<config><modules><localeversion supressWarning="false">0.9.0</localeversion></modules></config>'),
+        'xml'       => '<config><modules><localeversion supressWarning="false">0.9.0</localeversion></modules></config>',
+        // pass as string other wise pass as SimpleXmlElement object like above line
+        'meetingID' => 'tamku'
+    ]);
+    */
+
+    /*
+    // Hooks create
+    dd(Bigbluebutton::hooksCreate([
+        'callbackURL' => 'example.test', //required
+        'meetingID' => 'tamku', //optional  if not set then hooks set for all meeting id
+        'getRaw' => true //optional
+    ]));
+    */
+
+    /*
+    // Hooks destroy
+    dd(Bigbluebutton::hooksDestroy([
+        'hooksID' => 33
+    ]));
+
+    dd(Bigbluebutton::hooksDestroy('53')); //second way
+    */
+
+    /*
+    // Get api version
+    dd(\Bigbluebutton::getApiVersion()); // return as collection
+    */
+
+    /*
+    // Start a meeting
+    // Start meeting (first check meeting is exists or not if not then create a meeting and join a meeting otherwise meeting is exists then it will directly join a meeting) (by default user join as moderator)
+
+    $url = \Bigbluebutton::start([
+        'meetingID' => 'tamku',
+        'moderatorPW' => 'moderator', //moderator password set here
+        'attendeePW' => 'attendee', //attendee password here
+        'userName' => 'John Deo',//for join meeting
+        //'redirect' => false // only want to create and meeting and get join url then use this parameter
+    ]);
+
+    return redirect()->to($url);
     */
 
 })->name('BBB');

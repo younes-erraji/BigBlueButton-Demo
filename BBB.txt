@@ -1,6 +1,8 @@
 https://docs.bigbluebutton.org/dev/api.html
+https://github.com/bigbluebutton/bigbluebutton-api-php/wiki
 https://blog.codehunger.in/bigbluebutton-integration-in-laravel/
 https://github.com/joisarjignesh/bigbluebutton
+https://mconf.github.io/api-mate/
 
 composer require joisarjignesh/bigbluebutton
 
