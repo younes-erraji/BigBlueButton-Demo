@@ -42,6 +42,7 @@
             <form action="{{ route('BBB') }}" class="flex justify-center">
                 <button class="p-4 b-radius border-none text-gray cursor-p">Big Blue Button</button>
             </div>
+
         </div>
     </body>
 </html>

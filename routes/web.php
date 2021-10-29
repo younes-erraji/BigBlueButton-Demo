@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MeetingController;
 use Illuminate\Support\Facades\Route;
 use BigBlueButton\Parameters\CreateMeetingParameters;
 use JoisarJignesh\Bigbluebutton\Facades\Bigbluebutton;
@@ -29,7 +30,7 @@ Route::get('BBB', function () {
     // $meetingParams->setAttendeePassword('attendeePassword');
 
     // \Bigblubutton::create($meetingParams);
-    */
+    *//*
 
     $createMeeting = \Bigbluebutton::initCreateMeeting([
         'meetingID' => 'second meeting',
@@ -55,7 +56,7 @@ Route::get('BBB', function () {
     $createMeeting->setlockSettingsDisableCam(true);
     $createMeeting->setlockSettingsDisableMic(true);
     \Bigbluebutton::create($createMeeting);
-
+    */
     /**
     * $createMeeting->setModeratorOnlyMessage(‘Moderator message’);
     * $createMeeting->setAutoStartRecording(‘true’);
@@ -207,3 +208,8 @@ Route::get('BBB', function () {
     */
 
 })->name('BBB');
+
+Route::get('meeting', [MeetingController::class, 'index']);
+Route::get('join-meeting', [MeetingController::class, 'join']);
+Route::post('meeting.new', [MeetingController::class, 'new'])->name('new-meeting');
+Route::post('share', [MeetingController::class, 'share'])->name('share');
