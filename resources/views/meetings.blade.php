@@ -1,9 +1,12 @@
 @extends('layouts.master')
 @section('title', 'Create a room')
+@section('styles')
+<link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.css"/>
+@endsection
 @section('content')
     <div class="container mt-5 mb-5">
         <div class="row">
-            <table class="table hover">
+            <table class="table table-striped table-hover">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
@@ -35,4 +38,8 @@
               </table>
         </div>
     </div>
+@endsection
+@section('scripts')
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.js"></script>
 @endsection

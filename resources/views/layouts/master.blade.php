@@ -16,7 +16,7 @@
                 <a class="navbar-brand">BigBluButton</a>
                 <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     Menu
-                    <i class="fas fa-bars"></i>
+                    <i class="fa fa-bars"></i>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
@@ -58,5 +58,6 @@
         <div class="copyright py-4 text-center text-white">
             <div class="container"><small>Copyright &copy; Younes ERRAJI 2021</small></div>
         </div>
+        @yield('scripts')
     </body>
 </html>
