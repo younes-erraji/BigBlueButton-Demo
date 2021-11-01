@@ -80,7 +80,7 @@
                     </div>
                     --}}
                     <button class="btn btn-primary">Create a meeting</button>
-                    <a href="/meetings" class="btn btn-warning">Meetings</a>
+                    <a href="/" class="btn btn-warning">Meetings</a>
                   </form>
                 </div>
 
