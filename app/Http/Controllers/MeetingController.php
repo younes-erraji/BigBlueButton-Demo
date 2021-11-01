@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Meeting;
 use Illuminate\Http\Request;
+use PhpParser\Node\Stmt\Return_;
 
 class MeetingController extends Controller
 {
@@ -20,45 +22,79 @@ class MeetingController extends Controller
             'meeting_presentation' => 'required|mimes:pdf,pptx',
         ]);
 
-        $ex = request()->file('meeting_presentation')->getClientOriginalExtension();
+        $meeting = new Meeting();
+        $meeting->meeting_id = request('meeting_id');
+        $meeting->meeting_name = request('meeting_name');
+        $meeting->username = request('username');
+        $meeting->moderator_password = request('moderator_meeting_password');
+        $meeting->attendee_password = request('attendee_meeting_password');
+        $meeting->meeting_participant = request('meeting_participant');
 
-        $createMeeting = \Bigbluebutton::initCreateMeeting([
-            'meetingID' => request('meeting_name'),
-            'meetingName' => request('meeting_password'),
-            'attendeePW' => request('attendee_meeting_password'),
-            'moderatorPW' => request('moderator_meeting_password'),
-            'presentation'  => [
-                // ['link' => request('meeting_presentation'), 'meeting_name' => request('meeting_name') . $ex],
-                ['link' => 'http://www.africau.edu/images/default/sample.pdf', 'fileName' => request('meeting_name') . '.pdf'],
-            ],
-            'endCallbackUrl'  => 'http://127.0.0.1:8008/callback',
-            'logoutUrl' => 'http://127.0.0.1:8008/logout',
-        ]);
+        if (request()->hasFile('meeting_presentation')) {
+            $file = request()->file('meeting_presentation');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension;
+            $file->move('/presentations', $filename);
+            $meeting->meeting_presentation = $filename;
+        } else {
+            return back()->with('fail', 'Something went wrong');
+        }
 
-        $createMeeting->setDuration(100);
-        $createMeeting->setWelcomeMessage('Hello Younes');
-        $createMeeting->setRecord(true);
-        $createMeeting->setMaxParticipants(10);
-        $createMeeting->setlogo('https://avatars.githubusercontent.com/u/89527726?v=4');
-        $createMeeting->setcopyright('Younes ERRAJI');
-        $createMeeting->setlockSettingsDisableCam(true);
-        $createMeeting->setlockSettingsDisableMic(true);
-        \Bigbluebutton::create($createMeeting);
+        $test = $meeting->save();
+        if ($test) {
+            // return back()->with('success', 'The meeting has been created successfully');
+            $createMeeting = \Bigbluebutton::initCreateMeeting([
+                'meetingID' => request('meeting_id'),
+                'meetingName' => request('meeting_name'),
+                'attendeePW' => request('attendee_meeting_password'),
+                'moderatorPW' => request('moderator_meeting_password'),
+                'presentation'  => [
+                    // ['link' => asset('presentations/' . $filename), 'meeting_name' => $filename],
+                    ['link' => 'http://www.africau.edu/images/default/sample.pdf', 'fileName' => $filename],
+                ],
+                'endCallbackUrl'  => 'http://127.0.0.1:8000/callback',
+                'logoutUrl' => 'http://127.0.0.1:8000/logout',
+            ]);
 
+            $createMeeting->setDuration(100);
+            $createMeeting->setWelcomeMessage('Hello Younes');
+            $createMeeting->setRecord(true);
+            $createMeeting->setMaxParticipants(request('meeting_participant'));
+            $createMeeting->setlogo('https://avatars.githubusercontent.com/u/89527726?v=4');
+            $createMeeting->setcopyright('Younes ERRAJI');
+            $createMeeting->setlockSettingsDisableCam(true);
+            $createMeeting->setlockSettingsDisableMic(true);
+            \Bigbluebutton::create($createMeeting);
+
+            return redirect()->to(
+                \Bigbluebutton::join([
+                    'meetingID' => request('meeting_id'),
+                    'userName' => request('username'),
+                    'password' => request('moderator_meeting_password')
+                ])
+            );
+        } else {
+            return back()->with('fail', 'Something went wrong');
+        }
+    }
+
+    // function meetings() {
+
+    // }
+
+    function join() {
         return redirect()->to(
             \Bigbluebutton::join([
                 'meetingID' => request('meeting_id'),
-                'userName' => 'Younes ERRAJI',
-                'password' => request('moderator_meeting_password') // which user role want to join set password here
+                'userName' => request('username'),
+                'password' => request('attendee_meeting_password')
             ])
         );
     }
 
-    function join() {
-
-    }
-
-    function share() {
-        dd(redirect()->to(\Bigbluebutton::join(['meetingID' => '123456','userName' => 'Younes ERRAJI','password' => "123456789"])));
+    function share(Meeting $meeting) {
+        // dd(redirect()->to(\Bigbluebutton::join(['meetingID' => '123456','userName' => 'Younes ERRAJI','password' => "123456789"])));
+        // dd($meeting);
+        return view('shared', ['meeting' => $meeting]);
     }
 }
