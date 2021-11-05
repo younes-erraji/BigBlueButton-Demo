@@ -16,6 +16,7 @@
                     <th scope="col">Attendee password</th>
                     <th></th>
                     <th></th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -26,16 +27,30 @@
                         <td>{{ $meeting->meeting_name }}</td>
                         <td>{{ $meeting->attendee_password }}</td>
                         <td>{{ $meeting->moderator_password }}</td>
+
+                        <td>
+                            @if($meeting->isRunning($meeting->meeting_id) === 'true')
+                            <button class="btn btn-sm btn-success"><i class="fa fa-clock-o" aria-hidden="true"></i></button>
+                            @else
+                            <button class="btn btn-sm btn-danger"><i class="fa fa-check-square-o"></i></button>
+                            @endif
+                        </td>
+
                         <td>
                             <form action="{{ route('share', $meeting->id) }}" method="POST">
                                 @csrf
-                                <button class="btn btn-sm btn-warning"><i class="fa fa-share"></i></button>
+                                <button class="btn btn-sm btn-warning"
+                                {{ $meeting->isRunning($meeting->meeting_id) === 'false' ? 'disabled' : '' }}><i class="fa fa-share"></i></button>
                             </form>
                         </td>
                     </tr>
                     @endforeach
                 </tbody>
               </table>
+
+              <div class="d-flex justify-content-center">
+                {{ $meetings->links('vendor.pagination.bootstrap-4') }}
+              </div>
         </div>
     </div>
 @endsection

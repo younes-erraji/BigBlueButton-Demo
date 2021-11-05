@@ -4,6 +4,7 @@ use App\Http\Controllers\MeetingController;
 use App\Models\Meeting;
 use Illuminate\Support\Facades\Route;
 use BigBlueButton\Parameters\CreateMeetingParameters;
+use Illuminate\Support\Facades\DB;
 use JoisarJignesh\Bigbluebutton\Facades\Bigbluebutton;
 
 use function PHPUnit\Framework\returnSelf;
@@ -194,13 +195,15 @@ use function PHPUnit\Framework\returnSelf;
 
 // })->name('BBB');
 
-
 // Route::get('meetings', [MeetingController::class, 'meetings'])->name('meetings');
 
 Route::get('meeting', [MeetingController::class, 'index']);
 Route::post('new-meeting', [MeetingController::class, 'new'])->name('new-meeting');
+
 Route::get('/', function () {
-    $meetings  = Meeting::all()->sortByDesc('created_at');
+    $meetings  = Meeting::paginate(7);
+    // $meetings = DB::table('meetings')->paginate(10);
+
     return view('meetings', ['meetings' => $meetings]);
 });
 Route::post('share/{meeting}', [MeetingController::class, 'share'])->name('share');
